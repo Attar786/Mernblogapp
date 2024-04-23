@@ -24,4 +24,4 @@ app.listen(port, () => {
   console.log(`Examplhe app listening on port ${port}`);
 });
 
-app.use("/api/user",userRoutes);
+app.get("/api/user",userRoutes);
