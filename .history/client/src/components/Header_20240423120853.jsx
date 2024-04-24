@@ -9,7 +9,7 @@ import {
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
-// import Signin from "../pages/Signin";
+import Signin from "../pages/Signin";
 const Header = () => {
     const path = useLocation().pathname;
     return (

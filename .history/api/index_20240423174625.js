@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Examplhe app listening on port ${port}`);
 });
+
 app.use("/api/user",userRoutes);
 app.use('/api/auth', authRoutes);
 app.use((err, req,res, next) =>
