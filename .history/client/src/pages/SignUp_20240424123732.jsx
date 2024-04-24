@@ -1,56 +1,20 @@
-import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react"
+import { Button, Label, TextInput } from "flowbite-react"
 import { useState } from "react";
-import { Link, useNavigate} from "react-router-dom"
+import { Link } from "react-router-dom"
 
 const SignUp = () => {
   const [formData , setformData] = useState({});
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [loading , setloading] = useState(false); 
-  const navigate = useNavigate();
-  const HandleChange = (e) => {
+const HandleChange = (e) => {
   setformData({
    ...formData,
-    [e.target.id]: e.target.value.trim()
+    [e.target.id]: e.target.value,
   });
 };
+// console.log(formData);
 const handleSubmit = async (e) => {
 e.preventDefault();
-if (!formData.username || !formData.email || !formData.password)
-{
-    
-  return setErrorMessage('all fields required');
 
 
-}
-try {
-  setloading(true);
-  setErrorMessage(null);
-  const res = await fetch("api/auth/signup", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(formData)
-  });
-  const data = await res.json();
-  if(data.success === false) {
-
-    if (data.error && data.error.type === "duplicate_user") {
-       return  setErrorMessage("Username or email already exists.");
-      } else {
-       return setErrorMessage(data.message);
-      }
-  }
-  setloading(false);
-  if(res.ok)
-  {
-    navigate("/signin");
-  }
-  // Handle response
-} catch (error) {
-  setErrorMessage(error.message);
-  setloading(false);
-}
 }
   return (
     <div className="min-h-screen mt-20">
@@ -84,30 +48,12 @@ try {
   <Label value="Your Password"/>
   <TextInput  type="password" placeholder="Password" id="password" onChange={HandleChange}/>
 </div>
-<Button gradientDuoTone={'purpleToPink'} type='submit'  disabled={loading}>
-{
-    loading ? (
-      <>
-      <Spinner size={'sm'}/>
-      <span>loading...</span>
-      </>
-    ) : 'Sign Up'
-  }
-</Button>
-  
+<Button gradientDuoTone={'purpleToPink'} type='submit'>Sign up</Button>
   </form>
   <div className="flex gap-3 mt-3">
     <span>Already have an Account?</span>
     <Link to="/signin" className="text-blue-500 font-bold">Sign in</Link>
   </div>
-{
-  errorMessage && (
-    <Alert className="mt-5" color={'failure'}>
-      {errorMessage}
-    </Alert>
-  ) 
-}
-
 </div>
 </div>
     </div>

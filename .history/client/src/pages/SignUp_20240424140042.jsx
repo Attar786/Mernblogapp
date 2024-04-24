@@ -1,12 +1,11 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react"
 import { useState } from "react";
-import { Link, useNavigate} from "react-router-dom"
+import { Link } from "react-router-dom"
 
 const SignUp = () => {
   const [formData , setformData] = useState({});
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, seterrorMessage] = useState(null);
   const [loading , setloading] = useState(false); 
-  const navigate = useNavigate();
   const HandleChange = (e) => {
   setformData({
    ...formData,
@@ -18,13 +17,13 @@ e.preventDefault();
 if (!formData.username || !formData.email || !formData.password)
 {
     
-  return setErrorMessage('all fields required');
+  return seterrorMessage('all fields required');
 
 
 }
 try {
   setloading(true);
-  setErrorMessage(null);
+  seterrorMessage(null);
   const res = await fetch("api/auth/signup", {
     method: "POST",
     headers: {
@@ -34,23 +33,15 @@ try {
   });
   const data = await res.json();
   if(data.success === false) {
-
-    if (data.error && data.error.type === "duplicate_user") {
-       return  setErrorMessage("Username or email already exists.");
-      } else {
-       return setErrorMessage(data.message);
-      }
+  return errorMessage(data.message);
   }
   setloading(false);
-  if(res.ok)
-  {
-    navigate("/signin");
-  }
   // Handle response
 } catch (error) {
-  setErrorMessage(error.message);
+  seterrorMessage(error.message);
   setloading(false);
 }
+
 }
   return (
     <div className="min-h-screen mt-20">
@@ -84,16 +75,16 @@ try {
   <Label value="Your Password"/>
   <TextInput  type="password" placeholder="Password" id="password" onChange={HandleChange}/>
 </div>
-<Button gradientDuoTone={'purpleToPink'} type='submit'  disabled={loading}>
-{
+<Button gradientDuoTone={'purpleToPink'} type='submit'  disabled={loading}>Sign up</Button>
+  {
     loading ? (
       <>
       <Spinner size={'sm'}/>
-      <span>loading...</span>
+      <span>...loading</span>
       </>
-    ) : 'Sign Up'
+    ) : ''
   }
-</Button>
+  
   
   </form>
   <div className="flex gap-3 mt-3">

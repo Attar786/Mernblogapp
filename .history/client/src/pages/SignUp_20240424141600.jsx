@@ -1,12 +1,11 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react"
 import { useState } from "react";
-import { Link, useNavigate} from "react-router-dom"
+import { Link } from "react-router-dom"
 
 const SignUp = () => {
   const [formData , setformData] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading , setloading] = useState(false); 
-  const navigate = useNavigate();
   const HandleChange = (e) => {
   setformData({
    ...formData,
@@ -42,10 +41,6 @@ try {
       }
   }
   setloading(false);
-  if(res.ok)
-  {
-    navigate("/signin");
-  }
   // Handle response
 } catch (error) {
   setErrorMessage(error.message);
